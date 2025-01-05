@@ -3,6 +3,7 @@ package com.example.springboothibernate.service.impl;
 import com.example.springboothibernate.model.User;
 import com.example.springboothibernate.repository.UserRepository;
 import com.example.springboothibernate.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -10,14 +11,17 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public void addUser(User user) {
-        userRepository.save(user);
+    public User addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override
@@ -37,6 +41,8 @@ public class UserServiceImpl implements UserService {
         userById.setSurname(user.getSurname());
         userById.setEmail(user.getEmail());
         userById.setAge(user.getAge());
+        userById.setPassword(passwordEncoder.encode(user.getPassword()));
+        userById.setRoles(user.getRoles());
         return userRepository.save(userById);
     }
 
