@@ -19,7 +19,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="age" type="smallint">
-                <constraints nullable="false"></constraints>
+                <constraints nullable="false"/>
             </column>
             <column name="password" type="varchar(255)">
                 <constraints nullable="false"/>
@@ -30,7 +30,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="roles_type" type="varchar(255)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

@@ -2,12 +2,10 @@ package com.example.springboothibernate.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class User implements UserDetails {
@@ -78,11 +76,10 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRolesType().name()))
-                .collect(Collectors.toList());
+        return roles;
     }
 
     @Override

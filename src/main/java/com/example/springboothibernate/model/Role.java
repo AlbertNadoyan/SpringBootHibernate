@@ -1,7 +1,9 @@
 package com.example.springboothibernate.model;
 
-import com.example.springboothibernate.model.enums.RolesType;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
@@ -11,14 +13,13 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private RolesType rolesType;
+    private String name;
 
     public Role() {
     }
 
-    public Role(RolesType rolesType) {
-        this.rolesType = rolesType;
+    public Role(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -29,12 +30,17 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public RolesType getRolesType() {
-        return rolesType;
+    public String getName() {
+        return name;
     }
 
-    public void setRolesType(RolesType rolesType) {
-        this.rolesType = rolesType;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 
     @Override
@@ -42,24 +48,19 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(id, role.id) && rolesType == role.rolesType;
+        return Objects.equals(id, role.id) && Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rolesType);
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", rolesType=" + rolesType +
+                ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public String getAuthority() {
-        return rolesType.name();
     }
 }
