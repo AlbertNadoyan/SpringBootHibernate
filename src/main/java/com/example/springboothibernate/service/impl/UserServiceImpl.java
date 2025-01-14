@@ -1,5 +1,6 @@
 package com.example.springboothibernate.service.impl;
 
+import com.example.springboothibernate.exception.UserNotFountException;
 import com.example.springboothibernate.model.User;
 import com.example.springboothibernate.repository.UserRepository;
 import com.example.springboothibernate.service.UserService;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(Long id, User user) {
-        User userById = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User userById = userRepository.findById(id).orElseThrow(() -> new UserNotFountException("User with id " + id + " not found"));
         userById.setName(user.getName());
         userById.setSurname(user.getSurname());
         userById.setEmail(user.getEmail());
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         User userById = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFountException("User with id " + id + " not found"));
         userRepository.delete(userById);
     }
 }
